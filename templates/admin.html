@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Admin Panel</title><script src="https://cdn.tailwindcss.com"></script></head>
-<body class="bg-gray-50">
-<div class="max-w-3xl mx-auto p-6">
-  <h1 class="text-2xl font-bold text-orange-600 mb-4">Tambah Produk</h1>
-  <form method="post" enctype="multipart/form-data" class="space-y-3">
-    <input type="text" name="nama" placeholder="Nama Produk" required class="w-full border p-2 rounded">
-    <input type="text" name="harga" placeholder="Harga" required class="w-full border p-2 rounded">
-    <input type="text" name="link" placeholder="Link Shopee" required class="w-full border p-2 rounded">
-    <input type="file" name="gambar" required class="w-full border p-2 rounded bg-white">
-    <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Tambah</button>
+<html>
+<head>
+  <title>Admin Katalog</title>
+</head>
+<body>
+  <h2>Tambah Produk</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" name="nama" placeholder="Nama produk" required><br>
+    <input type="number" name="harga" placeholder="Harga" required><br>
+    <input type="text" name="link" placeholder="Link Shopee" required><br>
+    <input type="file" name="gambar" required><br>
+    <button type="submit">Tambah Produk</button>
   </form>
-  <a href="/logout" class="inline-block mt-4 text-sm text-blue-600">Logout</a>
-</div>
+
+  <h3>Daftar Produk</h3>
+  <ul>
+    {% for item in produk %}
+      <li>
+        <img src="{{ item.gambar }}" width="100" />
+        <strong>{{ item.nama }}</strong> - Rp {{ item.harga }}
+      </li>
+    {% endfor %}
+  </ul>
+  <br>
+  <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
