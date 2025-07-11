@@ -11,8 +11,11 @@ CORS(app)
 
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# ✅ Buat folder jika belum ada (penting untuk Render)
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
 
 # === Login Manager ===
 login_manager = LoginManager()
@@ -61,6 +64,11 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/')
+def index():
+    return 'Backend Katalog Online 🎉'
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
