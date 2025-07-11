@@ -77,7 +77,37 @@ def admin():
     return render_template('admin.html', produk=produk)
 import os
 
+def insert_dummy_data():
+    import sqlite3
+    conn = sqlite3.connect("produk.db")
+    cur = conn.cursor()
+
+    # Buat tabel kalau belum ada
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS produk (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama TEXT,
+            harga INTEGER,
+            gambar TEXT,
+            link TEXT
+        )
+    ''')
+
+    # Tambahkan data dummy
+    dummy_produk = [
+        ("Tas Kulit Wanita", 120000, "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/7/20/bca3bd6d-7504-4c88-a501-7aa8a9604c8f.jpg", "https://shopee.co.id/product/12345"),
+        ("Sepatu Sneakers Pria", 210000, "https://images.tokopedia.net/img/cache/700/product-1/2023/2/10/34567.jpg", "https://shopee.co.id/product/67890"),
+        ("Jam Tangan Digital", 95000, "https://images.tokopedia.net/img/cache/700/product-1/2022/5/9/12345.jpg", "https://shopee.co.id/product/112233")
+    ]
+
+    cur.executemany("INSERT INTO produk (nama, harga, gambar, link) VALUES (?, ?, ?, ?)", dummy_produk)
+    conn.commit()
+    conn.close()
+    print("✅ Dummy produk berhasil dimasukkan ke database.")
+
+
 if __name__ == '__main__':
+    insert_dummy_data()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
